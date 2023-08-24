@@ -21,9 +21,6 @@ const getOutputPath = (fileName: string) => {
     return outputPath;
 }
 
-
-
-
 const getFileName = (url: string) => {
     for (const customFileName of customsFilesName) {
         console.log("Evaluando condicion de nombre: ", customFileName.id)
@@ -36,6 +33,24 @@ const getFileName = (url: string) => {
     const genericName = removeSpecialCharactersFromUrl(url)
     return genericName;
 }
+
+// Función para limpiar el directorio de salida
+const clearOutputDirectory = () => {
+    const outputDir = 'output';
+
+    if (fs.existsSync(outputDir)) {
+        const files = fs.readdirSync(outputDir);
+
+        for (const file of files) {
+            const filePath = path.join(outputDir, file);
+            fs.unlinkSync(filePath); // Elimina el archivo
+        }
+
+        console.log(`Contenido del directorio ${outputDir} eliminado.`);
+    }
+}
+
+clearOutputDirectory();
 
 axios.get(urlToDownload)
     .then((response: any) => {
