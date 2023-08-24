@@ -4,9 +4,8 @@ import path from 'path';
 import UrlsToDownload from "./config/url-to-download.json";
 import { customsFilesName } from "./config/customFileName";
 import { removeSpecialCharactersFromUrl } from './libs/urlHandler'; // Replace with the actual path to your module file
+import { secondsToWaitBetweenDownloads } from "./config/config.json"
 
-
-const urlToDownload: string = UrlsToDownload[0]
 
 const getOutputPath = (fileName: string) => {
     const outputDir = 'output'; // Carpeta de salida
@@ -52,13 +51,20 @@ const clearOutputDirectory = () => {
 
 clearOutputDirectory();
 
-axios.get(urlToDownload)
-    .then((response: any) => {
-        const fileName: string = getFileName(urlToDownload)
-        const outputPath = getOutputPath(fileName)
-        fs.writeFileSync(outputPath, response.data);
-        console.log(`Archivo HTML descargado y guardado como ${outputPath}`);
-    })
-    .catch((error: any) => {
-        console.error('Error al descargar el archivo HTML:', error);
-    });
+const downloadHtml = (urlToDownload: string) => {
+    axios.get(urlToDownload)
+        .then((response: any) => {
+            const fileName: string = getFileName(urlToDownload)
+            const outputPath = getOutputPath(fileName)
+            fs.writeFileSync(outputPath, response.data);
+            console.log(`Archivo HTML descargado y guardado como ${outputPath}`);
+        })
+        .catch((error: any) => {
+            console.error('Error al descargar el archivo HTML:', error);
+        });
+}
+
+
+for (const urlToDownload of UrlsToDownload) {
+    downloadHtml(urlToDownload);
+}
