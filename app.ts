@@ -65,6 +65,13 @@ const downloadHtml = (urlToDownload: string) => {
 }
 
 
-for (const urlToDownload of UrlsToDownload) {
-    downloadHtml(urlToDownload);
+const downloadUrlsWithDelay = async () => {
+    for (const urlToDownload of UrlsToDownload) {
+        await downloadHtml(urlToDownload);
+        // Espera el tiempo especificado antes de la siguiente descarga
+        await new Promise(resolve => setTimeout(resolve, secondsToWaitBetweenDownloads * 1000));
+    }
 }
+
+// Iniciar la descarga con el retraso entre cada solicitud
+downloadUrlsWithDelay();
