@@ -1,10 +1,12 @@
 import Versions from './components/Versions'
 import icons from './assets/icons.svg'
+import PageList from './components/PageList'
 
 function App(): JSX.Element {
   return (
     <div className="container">
       <Versions></Versions>
+      <PageList></PageList>
 
       <svg className="hero-logo" viewBox="0 0 900 300">
         <use xlinkHref={`${icons}#electron`} />
